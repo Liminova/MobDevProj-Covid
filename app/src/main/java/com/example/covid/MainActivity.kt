@@ -162,7 +162,11 @@ fun DisplayGraph(
     ) {
         Card(modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)) {
+            .height(300.dp)
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+            )) {
             if (datasetForModel.isNotEmpty()) {
                 ProvideChartStyle {
                     Chart(
@@ -185,7 +189,11 @@ fun DisplayGraph(
         // Another One
         Card(modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)) {
+            .height(300.dp)
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+            )) {
             if (datasetForModel.isNotEmpty()) {
                 ProvideChartStyle {
                     Chart(
