@@ -3,13 +3,13 @@ package com.example.covid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -28,16 +28,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.covid.ui.theme.CovidTheme
 import com.lighttigerxiv.catppuccin_kt.Label
 import com.lighttigerxiv.catppuccin_kt.getHexColor
@@ -102,23 +103,23 @@ fun CountBox(
     label: String,
     count: Int,
 ) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Card(modifier) {
+        Text(
+            label,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(16.dp)
+        )
 
-        ) {
-        Text(
-            modifier = Modifier
-                .padding(16.dp)
-                .wrapContentWidth(Alignment.CenterHorizontally),
-            text = label,
-        )
-        Text(
-            modifier = Modifier
-                .padding(16.dp)
-                .wrapContentWidth(Alignment.CenterHorizontally),
-            text = count.toString(),
-        )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            Text(
+                count.toString(),
+                fontWeight = FontWeight.Normal,
+                fontSize = 30.sp,
+                modifier = Modifier
+                    .padding(16.dp)
+            )
+        }
     }
 }
 
@@ -134,14 +135,14 @@ fun DisplayCount(
     ) {
         CountBox(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(16.dp, 16.dp, 8.dp, 16.dp)
                 .weight(1f),
             label = "Cases",
             count = cases,
         )
         CountBox(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp, 16.dp, 16.dp, 16.dp)
                 .weight(1f),
             label = "Deaths",
             count = deaths,
