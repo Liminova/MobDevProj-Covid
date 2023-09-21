@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
@@ -24,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
@@ -40,6 +39,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.covid.ui.theme.CovidTheme
+import com.lighttigerxiv.catppuccin_kt.Label
+import com.lighttigerxiv.catppuccin_kt.getHexColor
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
@@ -87,6 +88,11 @@ fun TopBar() {
                 )
             }
         },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(getHexColor(Label.MACCHIATO_SURFACE0).asLong()),
+            titleContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong()),
+            navigationIconContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong())
+        )
     )
 }
 
@@ -187,13 +193,15 @@ fun DisplayGraph(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-            )) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                )
+        ) {
             if (datasetForModel.isNotEmpty()) {
                 ProvideChartStyle {
                     Chart(
@@ -214,13 +222,15 @@ fun DisplayGraph(
             Text(text = "Another One - DJ Khaled", textAlign = TextAlign.Center)
         }
         // Another One
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-            )) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                )
+        ) {
             if (datasetForModel.isNotEmpty()) {
                 ProvideChartStyle {
                     Chart(

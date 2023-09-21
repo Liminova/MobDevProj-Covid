@@ -74,4 +74,5 @@ dependencies {
     implementation("com.patrykandpatrick.vico:compose:$vicoVersion")
     implementation("com.patrykandpatrick.vico:compose-m2:$vicoVersion")
     implementation("com.patrykandpatrick.vico:compose-m3:$vicoVersion")
+    implementation("com.github.lighttigerxiv:catppuccin-kt:1.0.0")
 }
