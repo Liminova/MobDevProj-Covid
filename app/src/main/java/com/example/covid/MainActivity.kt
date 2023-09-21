@@ -135,14 +135,14 @@ fun DisplayCount(
     ) {
         CountBox(
             modifier = Modifier
-                .padding(16.dp, 16.dp, 8.dp, 16.dp)
+                .padding(16.dp, 16.dp, 8.dp, 8.dp)
                 .weight(1f),
             label = "Cases",
             count = cases,
         )
         CountBox(
             modifier = Modifier
-                .padding(8.dp, 16.dp, 16.dp, 16.dp)
+                .padding(8.dp, 16.dp, 16.dp, 8.dp)
                 .weight(1f),
             label = "Deaths",
             count = deaths,
