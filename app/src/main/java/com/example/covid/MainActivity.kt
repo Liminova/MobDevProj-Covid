@@ -101,7 +101,6 @@ fun CovidAppV2() {
                 )
                 GraphCards(
                     modifier = Modifier
-                        .padding(bottom = 32.dp)
                         .fillMaxWidth(),
                 )
             }
