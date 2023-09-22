@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -21,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,19 +32,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.covid.ui.components.GraphCard
 import com.example.covid.ui.theme.CovidTheme
 import com.lighttigerxiv.catppuccin_kt.Label
 import com.lighttigerxiv.catppuccin_kt.getHexColor
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
-import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.DefaultAlpha
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
@@ -183,57 +178,13 @@ fun DisplayGraph(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                )
-        ) {
-            if (datasetForModel.isNotEmpty()) {
-                ProvideChartStyle {
-                    Chart(
-                        chart = lineChart(
-                            lines = datasetLineSpec
-                        ),
-                        chartModelProducer = modelProducer,
-                        chartScrollState = scrollState,
-                        isZoomEnabled = true,
-                    )
-                }
-            }
-        }
-        TextButton(modifier = Modifier.fillMaxWidth(), onClick = { refreshDataSet.intValue++ }) {
-            Text(text = "Another One - DJ Khaled", textAlign = TextAlign.Center)
-        }
-        // Another One
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                )
-        ) {
-            if (datasetForModel.isNotEmpty()) {
-                ProvideChartStyle {
-                    Chart(
-                        chart = lineChart(
-                            lines = datasetLineSpec
-                        ),
-                        chartModelProducer = modelProducer,
-                        chartScrollState = scrollState,
-                        isZoomEnabled = true,
-                    )
-                }
-            }
-        }
-        TextButton(modifier = Modifier.fillMaxWidth(), onClick = { refreshDataSet.intValue++ }) {
-            Text(text = "Another One - DJ Khaled", textAlign = TextAlign.Center)
-        }
+        GraphCard(
+            datasetForModel = datasetForModel,
+            datasetLineSpec = datasetLineSpec,
+            modelProducer = modelProducer,
+            scrollState = scrollState,
+            refreshDataSet = refreshDataSet,
+        )
     }
 }
 
