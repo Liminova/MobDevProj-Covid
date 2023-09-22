@@ -25,9 +25,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -53,17 +55,29 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun CardLocation(modifier: Modifier = Modifier, selectedCountry: String = "USA") {
+    Text(
+        text = selectedCountry,
+        modifier = modifier
+            .padding(16.dp),
+        style = MaterialTheme.typography.titleMedium
+    )
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun CovidAppV2() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    // icons to mimic drawer destinations
+
+    var selectedCountry by remember { mutableStateOf("USA") }
     val items = listOf(
-        Icons.Default.Favorite,
-        Icons.Default.Face,
-        Icons.Default.Email,
-        Icons.Default.Home
+        "USA",
+        "India",
+        "Brazil",
+        "France"
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
     ModalNavigationDrawer(
@@ -73,12 +87,12 @@ fun CovidAppV2() {
                 Spacer(Modifier.height(12.dp))
                 items.forEach { item ->
                     NavigationDrawerItem(
-                        icon = { Icon(item, contentDescription = null) },
-                        label = { Text(item.name) },
+                        label = { Text(item) },
                         selected = item == selectedItem.value,
                         onClick = {
                             scope.launch { drawerState.close() }
                             selectedItem.value = item
+                            selectedCountry = item
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                     )
@@ -92,11 +106,17 @@ fun CovidAppV2() {
                         scope.launch { drawerState.open() }
                     }
                 )
+                CardLocation(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    selectedCountry = selectedCountry
+                )
                 TopCards(
                     modifier = Modifier
                         .padding(16.dp),
-                    cases = 789012,
-                    deaths = 123456,
+                    // randomize numbers of cases and deaths
+                    cases = (0..1000000).random(),
+                    deaths = (0..1000000).random(),
                 )
                 GraphCards(
                     modifier = Modifier
