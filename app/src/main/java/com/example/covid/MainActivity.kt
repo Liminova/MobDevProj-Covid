@@ -154,7 +154,7 @@ fun DisplayGraph(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         GraphCard(
             datasetForModel = datasetForModel,
@@ -170,7 +170,9 @@ fun DisplayGraph(
 fun CovidApp(
     modifier: Modifier = Modifier
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = modifier
+    ) {
         item {
             TopBar()
         }
