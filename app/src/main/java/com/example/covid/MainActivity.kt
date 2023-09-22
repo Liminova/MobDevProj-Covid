@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(drawerState: DrawerState) {
+fun TopBar(onNavIconClicked: () -> Unit) {
     CenterAlignedTopAppBar(title = {
         Text(
             text = stringResource(id = R.string.top_bar),
@@ -101,7 +101,7 @@ fun TopBar(drawerState: DrawerState) {
         )
     }, navigationIcon = {
         IconButton(onClick = {
-//            drawerState.open()
+            onNavIconClicked()
         }) {
             Icon(
                 imageVector = Icons.Filled.Menu, contentDescription = "Localized description"
@@ -193,35 +193,6 @@ fun DisplayGraph(
     }
 }
 
-//@Composable
-//fun CovidApp(
-//    modifier: Modifier = Modifier
-//) {
-//    LazyColumn(
-//        modifier = modifier
-//    ) {
-//        item {
-//            TopBar()
-//        }
-//
-//        item {
-//            DisplayCount(
-//                modifier = Modifier.padding(bottom = 16.dp),
-//                cases = 789012,
-//                deaths = 123456,
-//            )
-//        }
-//
-//        item {
-//            DisplayGraph(
-//                modifier = Modifier
-//                    .padding(bottom = 32.dp)
-//                    .fillMaxWidth(),
-//            )
-//        }
-//    }
-//}
-
 @Preview(showBackground = true)
 @Composable
 fun CovidAppV2() {
@@ -256,7 +227,11 @@ fun CovidAppV2() {
         },
         content = {
             Column {
-                TopBar(drawerState = drawerState)
+                TopBar(
+                    onNavIconClicked = {
+                        scope.launch { drawerState.open() }
+                    }
+                )
                 DisplayCount(
                     modifier = Modifier.padding(bottom = 16.dp),
                     cases = 789012,
@@ -268,6 +243,9 @@ fun CovidAppV2() {
                         .padding(bottom = 32.dp)
                         .fillMaxWidth(),
                 )
+                Button(onClick = { scope.launch { drawerState.open() } }) {
+                    Text("Click to open")
+                }
             }
         }
     )
