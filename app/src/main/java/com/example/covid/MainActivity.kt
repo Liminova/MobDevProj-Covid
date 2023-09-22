@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.covid.ui.components.CountCard
 import com.example.covid.ui.components.GraphCard
 import com.example.covid.ui.theme.CovidTheme
 import com.lighttigerxiv.catppuccin_kt.Label
@@ -88,29 +89,6 @@ fun TopBar() {
 }
 
 @Composable
-fun CountBox(
-    modifier: Modifier = Modifier,
-    label: String,
-    count: Int,
-) {
-    Card(modifier) {
-        Text(
-            label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(16.dp)
-        )
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            Text(
-                count.toString(),
-                fontWeight = FontWeight.Normal,
-                fontSize = 30.sp,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
-}
-
-
-@Composable
 fun DisplayCount(
     modifier: Modifier = Modifier,
     cases: Int,
@@ -119,14 +97,14 @@ fun DisplayCount(
     Row(
         modifier = modifier,
     ) {
-        CountBox(
+        CountCard(
             modifier = Modifier
                 .padding(16.dp, 16.dp, 8.dp, 8.dp)
                 .weight(1f),
             label = "Cases",
             count = cases,
         )
-        CountBox(
+        CountCard(
             modifier = Modifier
                 .padding(8.dp, 16.dp, 16.dp, 8.dp)
                 .weight(1f),
