@@ -20,6 +20,17 @@ import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 
+private fun generateRandomDataPoints(): List<FloatEntry> {
+    val dataPoints = arrayListOf<FloatEntry>()
+    var xPos = 0f
+    for (i in 1..100) {
+        val randomYFloat = (1..1000).random().toFloat()
+        dataPoints.add(FloatEntry(x = xPos, y = randomYFloat))
+        xPos += 1f
+    }
+    return dataPoints
+}
+
 @Composable
 fun GraphCards(
     modifier: Modifier = Modifier,
@@ -34,8 +45,6 @@ fun GraphCards(
         // TODO: rebuild dataset
         datasetForModel.clear()
         datasetLineSpec.clear()
-        var xPos = 0f
-        val dataPoints = arrayListOf<FloatEntry>()
         datasetLineSpec.add(
             LineChart.LineSpec(
                 lineColor = Color.Green.toArgb(), lineBackgroundShader = DynamicShaders.fromBrush(
@@ -48,14 +57,7 @@ fun GraphCards(
                 )
             )
         )
-        for (i in 1..100) {
-            val randomYFloat = (1..1000).random().toFloat()
-            dataPoints.add(FloatEntry(x = xPos, y = randomYFloat))
-            xPos += 1f
-        }
-
-        datasetForModel.add(dataPoints)
-
+        datasetForModel.add(generateRandomDataPoints())
         modelProducer.setEntries(datasetForModel)
     }
 
