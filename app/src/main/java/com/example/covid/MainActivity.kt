@@ -60,8 +60,7 @@ class MainActivity : ComponentActivity() {
             CovidTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     CovidApp()
                 }
@@ -73,27 +72,23 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar() {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = stringResource(id = R.string.top_bar),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = { /* doSomething() */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description"
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(getHexColor(Label.MACCHIATO_SURFACE0).asLong()),
-            titleContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong()),
-            navigationIconContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong())
+    CenterAlignedTopAppBar(title = {
+        Text(
+            text = stringResource(id = R.string.top_bar),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
+    }, navigationIcon = {
+        IconButton(onClick = { /* doSomething() */ }) {
+            Icon(
+                imageVector = Icons.Filled.Menu, contentDescription = "Localized description"
+            )
+        }
+    }, colors = TopAppBarDefaults.topAppBarColors(
+        containerColor = Color(getHexColor(Label.MACCHIATO_SURFACE0).asLong()),
+        titleContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong()),
+        navigationIconContentColor = Color(getHexColor(Label.MACCHIATO_TEXT).asLong())
+    )
     )
 }
 
@@ -105,10 +100,7 @@ fun CountBox(
 ) {
     Card(modifier) {
         Text(
-            label,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(16.dp)
+            label, fontWeight = FontWeight.Bold, modifier = Modifier.padding(16.dp)
         )
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -116,8 +108,7 @@ fun CountBox(
                 count.toString(),
                 fontWeight = FontWeight.Normal,
                 fontSize = 30.sp,
-                modifier = Modifier
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
@@ -168,8 +159,7 @@ fun DisplayGraph(
         val dataPoints = arrayListOf<FloatEntry>()
         datasetLineSpec.add(
             LineChart.LineSpec(
-                lineColor = Color.Green.toArgb(),
-                lineBackgroundShader = DynamicShaders.fromBrush(
+                lineColor = Color.Green.toArgb(), lineBackgroundShader = DynamicShaders.fromBrush(
                     brush = Brush.verticalGradient(
                         listOf(
                             Color.Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_START),
@@ -191,8 +181,7 @@ fun DisplayGraph(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Card(
             modifier = Modifier
@@ -216,10 +205,7 @@ fun DisplayGraph(
                 }
             }
         }
-        TextButton(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = { refreshDataSet.intValue++ }
-        ) {
+        TextButton(modifier = Modifier.fillMaxWidth(), onClick = { refreshDataSet.intValue++ }) {
             Text(text = "Another One - DJ Khaled", textAlign = TextAlign.Center)
         }
         // Another One
@@ -245,10 +231,7 @@ fun DisplayGraph(
                 }
             }
         }
-        TextButton(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = { refreshDataSet.intValue++ }
-        ) {
+        TextButton(modifier = Modifier.fillMaxWidth(), onClick = { refreshDataSet.intValue++ }) {
             Text(text = "Another One - DJ Khaled", textAlign = TextAlign.Center)
         }
     }
@@ -265,8 +248,7 @@ fun CovidApp(
 
         item {
             DisplayCount(
-                modifier = Modifier
-                    .padding(bottom = 16.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
                 cases = 100,
                 deaths = 200,
             )
