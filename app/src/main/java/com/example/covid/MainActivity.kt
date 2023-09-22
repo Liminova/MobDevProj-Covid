@@ -180,8 +180,8 @@ fun CovidApp(
         item {
             DisplayCount(
                 modifier = Modifier.padding(bottom = 16.dp),
-                cases = 100,
-                deaths = 200,
+                cases = 789012,
+                deaths = 123456,
             )
         }
 
