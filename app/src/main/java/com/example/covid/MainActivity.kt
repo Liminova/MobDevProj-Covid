@@ -113,8 +113,20 @@ fun BelowTopBar(
             )
             Spacer(modifier = Modifier.padding(16.dp))
         }
-        items(4) {
-            GraphCard(generateRandomDataPoints()).New()
+        item {
+            GraphCard(generateRandomDataPoints(), description = "Cases").New()
+            Spacer(modifier = Modifier.padding(8.dp))
+        }
+        item {
+            GraphCard(generateRandomDataPoints(), description = "Cured").New()
+            Spacer(modifier = Modifier.padding(8.dp))
+        }
+        item {
+            GraphCard(generateRandomDataPoints(), description = "Treating").New()
+            Spacer(modifier = Modifier.padding(8.dp))
+        }
+        item {
+            GraphCard(generateRandomDataPoints(), description = "Deaths").New()
             Spacer(modifier = Modifier.padding(8.dp))
         }
     }
