@@ -49,16 +49,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun CardLocation(modifier: Modifier = Modifier, selectedCountry: String = "USA") {
-    Text(
-        text = selectedCountry,
-        modifier = modifier
-            .padding(16.dp),
-        style = MaterialTheme.typography.titleMedium
-    )
-}
-
 
 @Preview(showBackground = true)
 @Composable
