@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +18,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -297,10 +299,22 @@ fun CovidAppV2() {
         "Zimbabwe"
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
+    // Search bar
+    var searchQuery by remember { mutableStateOf("") }
+
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
         ModalDrawerSheet {
             Spacer(Modifier.height(12.dp))
-            items.forEach { item ->
+            TextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text("Search") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+
+            items.filter { it.contains(searchQuery, ignoreCase = true) }.forEach { item ->
                 NavigationDrawerItem(
                     label = { Text(item) },
                     selected = item == selectedItem.value,
@@ -318,12 +332,11 @@ fun CovidAppV2() {
             TopBar(onNavIconClicked = {
                 scope.launch { drawerState.open() }
             })
-            BelowTopBar(
-                selectedCountry = selectedCountry
-            )
+            BelowTopBar(selectedCountry = selectedCountry)
         }
     })
 }
+
 
 @Composable
 fun BelowTopBar(
