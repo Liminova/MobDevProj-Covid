@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -53,7 +55,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun CovidAppV2() {
@@ -61,7 +62,7 @@ fun CovidAppV2() {
     val scope = rememberCoroutineScope()
 
     var selectedCountry by remember { mutableStateOf("USA") }
-    val items = listOf(
+    val countries = listOf(
         "Afghanistan",
         "Albania",
         "Algeria",
@@ -298,35 +299,44 @@ fun CovidAppV2() {
         "Zambia",
         "Zimbabwe"
     )
-    val selectedItem = remember { mutableStateOf(items[0]) }
+    val selectedItem = remember { mutableStateOf(countries[0]) }
     // Search bar
     var searchQuery by remember { mutableStateOf("") }
 
-    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-        ModalDrawerSheet {
-            Spacer(Modifier.height(12.dp))
-            TextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                label = { Text("Search") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            )
+    var filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
 
-            items.filter { it.contains(searchQuery, ignoreCase = true) }.forEach { item ->
-                NavigationDrawerItem(
-                    label = { Text(item) },
-                    selected = item == selectedItem.value,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                        selectedItem.value = item
-                        selectedCountry = item
-                    },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
+        ModalDrawerSheet(
+            content = {
+                Spacer(Modifier.height(12.dp))
+                TextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    label = { Text("Search") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
                 )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    filteredCountries.forEach { item ->
+                        NavigationDrawerItem(
+                            label = { Text(item) },
+                            selected = item == selectedItem.value,
+                            onClick = {
+                                scope.launch { drawerState.close() }
+                                selectedItem.value = item
+                                selectedCountry = item
+                            },
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        )
+                    }
+                }
             }
-        }
+        )
     }, content = {
         Column {
             TopBar(onNavIconClicked = {
@@ -336,7 +346,6 @@ fun CovidAppV2() {
         }
     })
 }
-
 
 @Composable
 fun BelowTopBar(
@@ -350,8 +359,7 @@ fun BelowTopBar(
         item {
             LocationCard(
                 modifier = Modifier.padding(
-                    top = 64.dp,
-                    bottom = 64.dp
+                    top = 64.dp, bottom = 64.dp
                 ), selectedCountry
             )
             CaseDeathCards(
