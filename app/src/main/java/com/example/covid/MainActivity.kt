@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -27,9 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.covid.ui.sections.GraphCards
+import com.example.covid.ui.components.GraphCard
+import com.example.covid.ui.components.LocationCard
+import com.example.covid.ui.functions.generateRandomDataPoints
+import com.example.covid.ui.sections.CaseDeathCards
 import com.example.covid.ui.sections.TopBar
-import com.example.covid.ui.sections.TopCards
 import com.example.covid.ui.theme.CovidTheme
 import kotlinx.coroutines.launch
 
@@ -58,57 +60,35 @@ fun CovidAppV2() {
 
     var selectedCountry by remember { mutableStateOf("USA") }
     val items = listOf(
-        "USA",
-        "India",
-        "Brazil",
-        "France"
+        "USA", "India", "Brazil", "France"
     )
     val selectedItem = remember { mutableStateOf(items[0]) }
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Spacer(Modifier.height(12.dp))
-                items.forEach { item ->
-                    NavigationDrawerItem(
-                        label = { Text(item) },
-                        selected = item == selectedItem.value,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            selectedItem.value = item
-                            selectedCountry = item
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
-            }
-        },
-        content = {
-            Column {
-                TopBar(
-                    onNavIconClicked = {
-                        scope.launch { drawerState.open() }
-                    }
-                )
-                CardLocation(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    selectedCountry = selectedCountry
-                )
-                TopCards(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    // randomize numbers of cases and deaths
-                    cases = (0..1000000).random(),
-                    deaths = (0..1000000).random(),
-                )
-                GraphCards(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
+        ModalDrawerSheet {
+            Spacer(Modifier.height(12.dp))
+            items.forEach { item ->
+                NavigationDrawerItem(
+                    label = { Text(item) },
+                    selected = item == selectedItem.value,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        selectedItem.value = item
+                        selectedCountry = item
+                    },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
         }
-    )
+    }, content = {
+        Column {
+            TopBar(onNavIconClicked = {
+                scope.launch { drawerState.open() }
+            })
+            BelowTopBar(
+                selectedCountry = selectedCountry
+            )
+        }
+    })
 }
 
 @Composable
