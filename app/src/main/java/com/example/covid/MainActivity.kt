@@ -299,7 +299,7 @@ fun CovidAppV2() {
         "Zambia",
         "Zimbabwe"
     )
-    val selectedItem = remember { mutableStateOf(countries[0]) }
+    val selectedItem = remember { mutableStateOf(selectedCountry) }
     // Search bar
     var searchQuery by remember { mutableStateOf("") }
 
