@@ -3,6 +3,7 @@ package com.example.covid.ui.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -78,7 +79,10 @@ class GraphCard(
                 TextButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { onButtonClick }) {
-                    Text(text = description, textAlign = TextAlign.Center)
+                    Text(
+                        text = description, textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
             }
         }
