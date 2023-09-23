@@ -10,7 +10,7 @@ import com.example.covid.R
 import com.example.covid.ui.components.CountCard
 
 @Composable
-fun TopCards(
+fun CaseDeathCards(
     modifier: Modifier = Modifier,
     cases: Int,
     deaths: Int,
@@ -20,7 +20,8 @@ fun TopCards(
     ) {
         CountCard(
             modifier = Modifier
-                .weight(1f),
+                .weight(1f)
+                .padding(end = 16.dp),
             label = stringResource(R.string.cases),
             count = cases,
         )
