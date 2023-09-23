@@ -118,7 +118,7 @@ fun BelowTopBar(
             Spacer(modifier = Modifier.padding(8.dp))
         }
         item {
-            GraphCard(generateRandomDataPoints(), description = "Cured").New()
+            GraphCard(generateRandomDataPoints(), description = "Recovered").New()
             Spacer(modifier = Modifier.padding(8.dp))
         }
         item {
