@@ -111,7 +111,7 @@ fun BelowTopBar(
                 cases = (0..1000000).random(),
                 deaths = (0..1000000).random(),
             )
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(8.dp))
         }
         item {
             GraphCard(generateRandomDataPoints(), description = "Cases").New()
