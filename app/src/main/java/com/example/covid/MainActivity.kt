@@ -111,3 +111,31 @@ fun CovidAppV2() {
     )
 }
 
+@Composable
+fun BelowTopBar(
+    modifier: Modifier = Modifier, selectedCountry: String = "USA"
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(start = 16.dp, end = 16.dp),
+    ) {
+        item {
+            LocationCard(
+                modifier = Modifier.padding(
+                    top = 64.dp,
+                    bottom = 64.dp
+                ), selectedCountry
+            )
+            CaseDeathCards(
+                cases = (0..1000000).random(),
+                deaths = (0..1000000).random(),
+            )
+            Spacer(modifier = Modifier.padding(16.dp))
+        }
+        items(4) {
+            GraphCard(generateRandomDataPoints()).New()
+            Spacer(modifier = Modifier.padding(8.dp))
+        }
+    }
+}
