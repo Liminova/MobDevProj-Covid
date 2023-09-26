@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,11 +31,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.covid.ui.components.GraphCard
 import com.example.covid.ui.components.LocationCard
 import com.example.covid.ui.functions.generateRandomDataPoints
-import com.example.covid.ui.sections.CaseDeathCards
-import com.example.covid.ui.sections.TopBar
+import com.example.covid.ui.sections.CountSection
+import com.example.covid.ui.sections.GraphSection
+import com.example.covid.ui.sections.GraphUiState
+import com.example.covid.ui.sections.SuccessData
+import com.example.covid.ui.sections.TopBarSection
 import com.example.covid.ui.theme.CovidTheme
 import kotlinx.coroutines.launch
 
