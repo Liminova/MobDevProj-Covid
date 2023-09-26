@@ -305,7 +305,7 @@ fun CovidAppV2() {
     // Search bar
     var searchQuery by remember { mutableStateOf("") }
 
-    var filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
+    val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
 
     // Scroll state
     val scrollState = rememberScrollState()
