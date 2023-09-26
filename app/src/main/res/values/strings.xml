@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Covid</string>
     <string name="top_bar">COVID-19 Statistics</string>
-    <string name="cases">Cases</string>
-    <string name="deaths">Deaths</string>
+    <string name="last_updated">Last Updated: %1$s</string>
+    <string name="total_cases">Total Cases</string>
+    <string name="total_deaths">Total Deaths</string>
 </resources>
