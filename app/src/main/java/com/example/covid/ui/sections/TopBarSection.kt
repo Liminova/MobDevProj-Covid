@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
+fun TopBarSection(
     onNavIconClicked: () -> Unit,
     scrollState: ScrollState,
     selectedCountry: String
