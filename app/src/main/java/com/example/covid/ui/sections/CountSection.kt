@@ -1,6 +1,7 @@
 package com.example.covid.ui.sections
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,27 +11,25 @@ import com.example.covid.R
 import com.example.covid.ui.components.CountCard
 
 @Composable
-fun CaseDeathCards(
+fun CountSection(
+    cumulatedDeaths: Int = 0,
+    cumulatedCases: Int = 0,
     modifier: Modifier = Modifier,
-    cases: Int,
-    deaths: Int,
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
     ) {
         CountCard(
+            label = stringResource(R.string.total_cases),
+            count = cumulatedCases,
             modifier = Modifier
                 .weight(1f)
-                .padding(end = 16.dp),
-            label = stringResource(R.string.cases),
-            count = cases,
+                .padding(end = 16.dp)
         )
         CountCard(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1f),
-            label = stringResource(R.string.deaths),
-            count = deaths,
+            label = stringResource(R.string.total_deaths),
+            count = cumulatedDeaths,
+            modifier = Modifier.weight(1f)
         )
     }
 }
