@@ -3,13 +3,16 @@ package com.example.covid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerValue
@@ -305,6 +308,9 @@ fun CovidAppV2() {
 
     var filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
 
+    // Scroll state
+    val scrollState = rememberScrollState()
+
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
         ModalDrawerSheet(
             content = {
@@ -339,24 +345,37 @@ fun CovidAppV2() {
         )
     }, content = {
         Column {
-            TopBar(onNavIconClicked = {
-                scope.launch { drawerState.open() }
-            })
-            BelowTopBar(selectedCountry = selectedCountry)
+            TopBar(
+                onNavIconClicked = { scope.launch { drawerState.open() } },
+                scrollState = scrollState,
+                selectedCountry = selectedCountry
+            )
+            BelowTopBar(
+                selectedCountry = selectedCountry,
+                scrollState = scrollState,
+                modifier = Modifier.verticalScroll(scrollState)
+            )
         }
     })
 }
 
 @Composable
 fun BelowTopBar(
-    modifier: Modifier = Modifier, selectedCountry: String = "USA"
+    modifier: Modifier = Modifier,
+    selectedCountry: String = "USA",
+    scrollState: ScrollState
 ) {
-    LazyColumn(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp),
+            .padding(start = 16.dp, end = 16.dp)
+            .scrollable(
+                state = scrollState,
+                orientation = Orientation.Vertical,
+                reverseDirection = true
+            )
     ) {
-        item {
+        Column {
             LocationCard(
                 modifier = Modifier.padding(
                     top = 64.dp, bottom = 64.dp
@@ -367,20 +386,12 @@ fun BelowTopBar(
                 deaths = (0..1000000).random(),
             )
             Spacer(modifier = Modifier.padding(8.dp))
-        }
-        item {
             GraphCard(generateRandomDataPoints(), description = "Cases").New()
             Spacer(modifier = Modifier.padding(8.dp))
-        }
-        item {
             GraphCard(generateRandomDataPoints(), description = "Recovered").New()
             Spacer(modifier = Modifier.padding(8.dp))
-        }
-        item {
             GraphCard(generateRandomDataPoints(), description = "Treating").New()
             Spacer(modifier = Modifier.padding(8.dp))
-        }
-        item {
             GraphCard(generateRandomDataPoints(), description = "Deaths").New()
             Spacer(modifier = Modifier.padding(8.dp))
         }
