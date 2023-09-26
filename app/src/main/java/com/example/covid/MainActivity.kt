@@ -344,15 +344,14 @@ fun CovidAppV2() {
         )
     }, content = {
         Column {
-            TopBar(
+            TopBarSection(
                 onNavIconClicked = { scope.launch { drawerState.open() } },
                 scrollState = scrollState,
                 selectedCountry = selectedCountry
             )
             BelowTopBar(
-                selectedCountry = selectedCountry,
+                countryName = selectedCountry,
                 scrollState = scrollState,
-                modifier = Modifier.verticalScroll(scrollState)
             )
         }
     })
