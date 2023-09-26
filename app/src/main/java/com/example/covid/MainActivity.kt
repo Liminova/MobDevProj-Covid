@@ -360,38 +360,33 @@ fun CovidAppV2() {
 @Composable
 fun BelowTopBar(
     modifier: Modifier = Modifier,
-    selectedCountry: String = "USA",
+    countryName: String = "USA",
     scrollState: ScrollState
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp)
-            .scrollable(
-                state = scrollState,
-                orientation = Orientation.Vertical,
-                reverseDirection = true
-            )
+    val successData = SuccessData(
+        newCases = generateRandomDataPoints(),
+        cumulativeCases = generateRandomDataPoints(),
+        newDeaths = generateRandomDataPoints(),
+        cumulativeDeaths = generateRandomDataPoints()
+    )
+    Column(
+        modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(scrollState)
     ) {
-        Column {
-            LocationCard(
-                modifier = Modifier.padding(
-                    top = 64.dp, bottom = 64.dp
-                ), selectedCountry
-            )
-            CaseDeathCards(
-                cases = (0..1000000).random(),
-                deaths = (0..1000000).random(),
-            )
-            Spacer(modifier = Modifier.padding(8.dp))
-            GraphCard(generateRandomDataPoints(), description = "Cases").New()
-            Spacer(modifier = Modifier.padding(8.dp))
-            GraphCard(generateRandomDataPoints(), description = "Recovered").New()
-            Spacer(modifier = Modifier.padding(8.dp))
-            GraphCard(generateRandomDataPoints(), description = "Treating").New()
-            Spacer(modifier = Modifier.padding(8.dp))
-            GraphCard(generateRandomDataPoints(), description = "Deaths").New()
-            Spacer(modifier = Modifier.padding(8.dp))
-        }
+        LocationCard(
+            modifier = Modifier.padding(
+                top = 64.dp, bottom = 96.dp
+            ),
+            countryName, "2021-09-30T00:00:00Z",
+        )
+        CountSection(
+            (100000..999999).random(),
+            (100000..999999).random(),
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        GraphSection(
+            GraphUiState.Success(successData), modifier.fillMaxWidth()
+        )
     }
 }
