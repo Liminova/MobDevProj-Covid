@@ -82,4 +82,5 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 }
