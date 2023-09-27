@@ -40,26 +40,22 @@ fun TopBarSection(
         }
     }
 
-    CenterAlignedTopAppBar(
-        title = {
-            AnimatedVisibility(
-                visible = visible, enter = fadeIn(), exit = fadeOut()
-            ) {
-                Text(
-                    modifier = Modifier.padding(start = 24.dp, end = 24.dp),
-                    text = title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        },
-        navigationIcon = {
-            IconButton(onClick = { onNavIconClicked() }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description"
-                )
-            }
+    CenterAlignedTopAppBar(title = {
+        AnimatedVisibility(
+            visible = visible, enter = fadeIn(), exit = fadeOut()
+        ) {
+            Text(
+                modifier = Modifier.padding(start = 24.dp, end = 24.dp),
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
-    )
+    }, navigationIcon = {
+        IconButton(onClick = { onNavIconClicked() }) {
+            Icon(
+                imageVector = Icons.Filled.Menu, contentDescription = "Localized description"
+            )
+        }
+    })
 }
