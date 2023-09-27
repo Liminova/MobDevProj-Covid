@@ -17,7 +17,7 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 
 @Composable
 fun GraphSection(
-    viewModel: AppViewModel, modifier: Modifier = Modifier
+    modifier: Modifier = Modifier, viewModel: AppViewModel,
 ) {
     when (viewModel.graphUiState) {
         is GraphUiState.Loading -> Loading(modifier)

@@ -12,9 +12,9 @@ import com.example.covid.ui.components.CountCard
 
 @Composable
 fun CountSection(
+    modifier: Modifier = Modifier,
     cumulatedDeaths: Int = 0,
     cumulatedCases: Int = 0,
-    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
