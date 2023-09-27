@@ -81,4 +81,5 @@ dependencies {
     // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 }
