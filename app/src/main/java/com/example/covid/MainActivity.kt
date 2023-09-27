@@ -31,10 +31,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.LocationCard
 import com.example.covid.ui.sections.CountSection
 import com.example.covid.ui.sections.GraphSection
-import com.example.covid.ui.sections.GraphSectionViewModel
 import com.example.covid.ui.sections.TopBarSection
 import com.example.covid.ui.theme.CovidTheme
 import kotlinx.coroutines.launch
@@ -57,10 +57,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CovidApp() {
+    val appViewModel = viewModel<AppViewModel>()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
-    var selectedCountry by remember { mutableStateOf("USA") }
     val countries = listOf(
         "Afghanistan",
         "Albania",
@@ -298,54 +297,49 @@ fun CovidApp() {
         "Zambia",
         "Zimbabwe"
     )
+
     var searchQuery by remember { mutableStateOf("") }
     val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
-    val selectedItem = remember { mutableStateOf(selectedCountry) }
     val scrollState = rememberScrollState()
 
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-        ModalDrawerSheet(
-            content = {
-                Spacer(Modifier.height(12.dp))
-                TextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    label = { Text("Search") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    filteredCountries.forEach { item ->
-                        NavigationDrawerItem(
-                            label = { Text(item) },
-                            selected = item == selectedItem.value,
-                            onClick = {
-                                scope.launch { drawerState.close() }
-                                selectedItem.value = item
-                                selectedCountry = item
-                            },
-                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                        )
-                    }
+        ModalDrawerSheet(content = {
+            Spacer(Modifier.height(12.dp))
+            TextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                label = { Text("Search") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                filteredCountries.forEach { item ->
+                    NavigationDrawerItem(
+                        label = { Text(item) },
+                        selected = item == appViewModel.selectedCountry.value,
+                        onClick = {
+                            scope.launch {
+                                drawerState.close()
+                                appViewModel.updateCountry(item)
+                            }
+                        },
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    )
                 }
             }
-        )
+        })
     }, content = {
         Column {
             TopBarSection(
+                appViewModel,
                 onNavIconClicked = { scope.launch { drawerState.open() } },
-                scrollState = scrollState,
-                selectedCountry = selectedCountry
             )
-            BelowTopBar(
-                countryName = selectedCountry,
-                scrollState = scrollState,
-            )
+            BelowTopBar(Modifier, appViewModel, scrollState)
         }
     })
 }
@@ -353,10 +347,9 @@ fun CovidApp() {
 @Composable
 fun BelowTopBar(
     modifier: Modifier = Modifier,
-    countryName: String = "USA",
-    scrollState: ScrollState
+    appViewModel: AppViewModel,
+    scrollState: ScrollState,
 ) {
-    val graphSectionViewModel = viewModel<GraphSectionViewModel>()
     Column(
         modifier
             .padding(horizontal = 16.dp)
@@ -366,13 +359,14 @@ fun BelowTopBar(
             modifier = Modifier.padding(
                 top = 64.dp, bottom = 96.dp
             ),
-            countryName, "2021-09-30T00:00:00Z",
+            appViewModel.selectedCountry.value,
+            appViewModel.lastUpdated.value,
         )
         CountSection(
-            (100000..999999).random(),
-            (100000..999999).random(),
+            appViewModel.totalDeaths.value,
+            appViewModel.totalCases.value,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        GraphSection(graphSectionViewModel, modifier.fillMaxWidth())
+        GraphSection(appViewModel, modifier.fillMaxWidth())
     }
 }
