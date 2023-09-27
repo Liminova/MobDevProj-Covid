@@ -29,14 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.covid.ui.components.LocationCard
-import com.example.covid.ui.functions.generateRandomDataPoints
 import com.example.covid.ui.sections.CountSection
 import com.example.covid.ui.sections.GraphSection
-import com.example.covid.ui.sections.GraphUiState
-import com.example.covid.ui.sections.SuccessData
+import com.example.covid.ui.sections.GraphSectionViewModel
 import com.example.covid.ui.sections.TopBarSection
 import com.example.covid.ui.theme.CovidTheme
 import kotlinx.coroutines.launch
@@ -358,12 +356,7 @@ fun BelowTopBar(
     countryName: String = "USA",
     scrollState: ScrollState
 ) {
-    val successData = SuccessData(
-        newCases = generateRandomDataPoints(),
-        cumulativeCases = generateRandomDataPoints(),
-        newDeaths = generateRandomDataPoints(),
-        cumulativeDeaths = generateRandomDataPoints()
-    )
+    val graphSectionViewModel = viewModel<GraphSectionViewModel>()
     Column(
         modifier
             .padding(horizontal = 16.dp)
@@ -380,8 +373,6 @@ fun BelowTopBar(
             (100000..999999).random(),
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        GraphSection(
-            GraphUiState.Success(successData), modifier.fillMaxWidth()
-        )
+        GraphSection(graphSectionViewModel, modifier.fillMaxWidth())
     }
 }

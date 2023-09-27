@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import com.example.covid.ui.functions.generateRandomDataPoints
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
@@ -29,6 +31,22 @@ import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
+
+class GraphSectionViewModel : ViewModel() {
+    var graphUiState: GraphUiState = GraphUiState.Loading
+        private set
+
+    init {
+        graphUiState = GraphUiState.Success(
+            SuccessData(
+                newCases = generateRandomDataPoints(),
+                cumulativeCases = generateRandomDataPoints(),
+                newDeaths = generateRandomDataPoints(),
+                cumulativeDeaths = generateRandomDataPoints()
+            )
+        )
+    }
+}
 
 data class SuccessData(
     val newCases: List<FloatEntry>,
@@ -45,12 +63,17 @@ sealed interface GraphUiState {
 
 @Composable
 fun GraphSection(
-    graphUiState: GraphUiState, modifier: Modifier = Modifier
+    viewModel: GraphSectionViewModel, modifier: Modifier = Modifier
 ) {
-    when (graphUiState) {
+    when (viewModel.graphUiState) {
         is GraphUiState.Loading -> Loading(modifier)
-        is GraphUiState.Success -> Success(graphUiState.data, modifier = modifier)
-        is GraphUiState.Error -> Error(graphUiState.message, modifier)
+        is GraphUiState.Success -> Success(
+            (viewModel.graphUiState as GraphUiState.Success).data, modifier
+        )
+
+        is GraphUiState.Error -> Error(
+            (viewModel.graphUiState as GraphUiState.Error).message, modifier
+        )
     }
 }
 
@@ -114,17 +137,13 @@ private fun GraphCard(
 
 @Composable
 private fun Success(
-    data: SuccessData,
-    modifier: Modifier = Modifier
+    data: SuccessData, modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         GraphCard(
-            Modifier.padding(bottom = 16.dp),
-            dataPoints = data.newCases,
-            description = "New Cases"
+            Modifier.padding(bottom = 16.dp), dataPoints = data.newCases, description = "New Cases"
         )
         GraphCard(
             Modifier.padding(bottom = 16.dp),
