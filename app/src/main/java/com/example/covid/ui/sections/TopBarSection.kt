@@ -1,5 +1,6 @@
 package com.example.covid.ui.sections
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -17,13 +18,14 @@ import com.example.covid.ui.AppViewModel
 fun TopBarSection(
     appViewModel: AppViewModel,
     onNavIconClicked: () -> Unit,
+    scrollState: ScrollState
 ) {
-    LaunchedEffect(appViewModel.scrollState.value) {
-        val yourThreshold = 350
-        if (appViewModel.scrollState.value > yourThreshold) {
+    LaunchedEffect(scrollState.value) {
+        val threshold = 350
+        if (scrollState.value > threshold) {
             appViewModel.topBarTitle.value = appViewModel.selectedCountry.value
         } else {
-            appViewModel.topBarTitle.value = ""
+            appViewModel.topBarTitle.value = "COVID-19 Statistics"
         }
     }
 
