@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -37,6 +38,7 @@ import com.example.covid.ui.sections.CountSection
 import com.example.covid.ui.sections.GraphSection
 import com.example.covid.ui.sections.TopBarSection
 import com.example.covid.ui.theme.CovidTheme
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -61,75 +63,67 @@ fun CovidApp() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val countries = countries
-
-    var searchQuery by remember { mutableStateOf("") }
-    val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
-
-    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
-        ModalDrawerSheet(content = {
-            Spacer(Modifier.height(12.dp))
-            TextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                label = { Text("Search") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                filteredCountries.forEach { item ->
-                    NavigationDrawerItem(
-                        label = { Text(item) },
-                        selected = item == appViewModel.selectedCountry.value,
-                        onClick = {
-                            scope.launch {
-                                drawerState.close()
-                                appViewModel.updateCountry(item)
-                            }
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
-            }
-        })
-    }, content = {
+    ModalNavigationDrawer(drawerState = drawerState,
+        drawerContent = { drawerContent(appViewModel, scope, drawerState) }) {
         Column {
             TopBarSection(
                 appViewModel,
                 onNavIconClicked = { scope.launch { drawerState.open() } },
             )
-            BelowTopBar(Modifier, appViewModel)
+            Column(
+                Modifier
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(appViewModel.scrollState)
+            ) {
+                LocationCard(
+                    Modifier.padding(top = 64.dp, bottom = 96.dp),
+                    appViewModel.selectedCountry.value,
+                    appViewModel.lastUpdated.value,
+                )
+                CountSection(
+                    Modifier.padding(bottom = 16.dp),
+                    appViewModel.totalDeaths.value,
+                    appViewModel.totalCases.value,
+                )
+                GraphSection(Modifier.fillMaxWidth(), appViewModel)
+            }
         }
-    })
+    }
 }
 
 @Composable
-fun BelowTopBar(
-    modifier: Modifier = Modifier,
-    appViewModel: AppViewModel,
+fun drawerContent(
+    appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
-    Column(
-        modifier
-            .padding(horizontal = 16.dp)
-            .verticalScroll(appViewModel.scrollState)
-    ) {
-        LocationCard(
-            modifier = Modifier.padding(
-                top = 64.dp, bottom = 96.dp
-            ),
-            appViewModel.selectedCountry.value,
-            appViewModel.lastUpdated.value,
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
+    ModalDrawerSheet() {
+        Spacer(Modifier.height(12.dp))
+        TextField(value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Search") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         )
-        CountSection(
-            appViewModel.totalDeaths.value,
-            appViewModel.totalCases.value,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-        GraphSection(appViewModel, modifier.fillMaxWidth())
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            filteredCountries.forEach { item ->
+                NavigationDrawerItem(
+                    label = { Text(item) },
+                    selected = item == appViewModel.selectedCountry.value,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                            appViewModel.updateCountry(item)
+                        }
+                    },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                )
+            }
+        }
     }
 }
