@@ -76,7 +76,14 @@ private fun Success(
 
 @Composable
 private fun Loading(modifier: Modifier = Modifier) {
-    Text(text = "Loading...", modifier = modifier)
+//    a "loading..." text that align to the center
+    Row(
+        modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(modifier = Modifier.padding(top = 64.dp))
+    }
 }
 
 @Composable
