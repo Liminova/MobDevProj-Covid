@@ -19,12 +19,12 @@ fun TopBarSection(
     appViewModel: AppViewModel,
     onNavIconClicked: () -> Unit,
 ) {
+    var title by remember { mutableStateOf("") }
     LaunchedEffect(appViewModel.scrollState.value) {
         val threshold = 350
-            appViewModel.topBarTitle.value = appViewModel.selectedCountry.value
         if (appViewModel.scrollState.value > threshold) {
+            title = appViewModel.selectedCountry.value
         } else {
-            appViewModel.topBarTitle.value = "COVID-19 Statistics"
         }
     }
 

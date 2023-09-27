@@ -25,7 +25,6 @@ class AppViewModel : ViewModel() {
     var selectedCountry = mutableStateOf("Select a country")
         private set
     var scrollState = ScrollState(0)
-    var topBarTitle = mutableStateOf("")
 
     init {
         graphUiState = GraphUiState.Success(
