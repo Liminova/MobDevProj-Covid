@@ -32,7 +32,7 @@ fun GraphCard(
     modifier: Modifier = Modifier,
     dataPoints: List<FloatEntry>,
     onButtonClick: () -> Unit = {},
-    description: String = "This is the default description",
+    description: String,
 ) {
     val refreshDataSet = remember { mutableIntStateOf(0) }
     val modelProducer = remember { ChartEntryModelProducer() }
