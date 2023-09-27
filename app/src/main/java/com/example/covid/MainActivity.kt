@@ -3,7 +3,6 @@ package com.example.covid
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,7 +65,6 @@ fun CovidApp() {
 
     var searchQuery by remember { mutableStateOf("") }
     val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
-    val scrollState = rememberScrollState()
 
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
         ModalDrawerSheet(content = {
@@ -104,9 +102,8 @@ fun CovidApp() {
             TopBarSection(
                 appViewModel,
                 onNavIconClicked = { scope.launch { drawerState.open() } },
-                scrollState
             )
-            BelowTopBar(Modifier, appViewModel, scrollState)
+            BelowTopBar(Modifier, appViewModel)
         }
     })
 }
@@ -115,12 +112,11 @@ fun CovidApp() {
 fun BelowTopBar(
     modifier: Modifier = Modifier,
     appViewModel: AppViewModel,
-    scrollState: ScrollState,
 ) {
     Column(
         modifier
             .padding(horizontal = 16.dp)
-            .verticalScroll(scrollState)
+            .verticalScroll(appViewModel.scrollState)
     ) {
         LocationCard(
             modifier = Modifier.padding(

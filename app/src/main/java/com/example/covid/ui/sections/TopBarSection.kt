@@ -18,12 +18,11 @@ import com.example.covid.ui.AppViewModel
 fun TopBarSection(
     appViewModel: AppViewModel,
     onNavIconClicked: () -> Unit,
-    scrollState: ScrollState
 ) {
-    LaunchedEffect(scrollState.value) {
+    LaunchedEffect(appViewModel.scrollState.value) {
         val threshold = 350
-        if (scrollState.value > threshold) {
             appViewModel.topBarTitle.value = appViewModel.selectedCountry.value
+        if (appViewModel.scrollState.value > threshold) {
         } else {
             appViewModel.topBarTitle.value = "COVID-19 Statistics"
         }
