@@ -22,13 +22,11 @@ fun GraphSection(
     when (viewModel.graphUiState) {
         is GraphUiState.Loading -> Loading(modifier)
         is GraphUiState.Success -> Success(
-            (viewModel.graphUiState as GraphUiState.Success).data,
-            modifier
+            (viewModel.graphUiState as GraphUiState.Success).data, modifier
         )
 
         is GraphUiState.Error -> Error(
-            (viewModel.graphUiState as GraphUiState.Error).message,
-            modifier
+            (viewModel.graphUiState as GraphUiState.Error).message, modifier
         )
     }
 }
@@ -76,7 +74,6 @@ private fun Success(
 
 @Composable
 private fun Loading(modifier: Modifier = Modifier) {
-//    a "loading..." text that align to the center
     Row(
         modifier,
         verticalAlignment = Alignment.CenterVertically,
