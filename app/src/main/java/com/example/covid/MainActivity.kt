@@ -300,13 +300,9 @@ fun CovidApp() {
         "Zambia",
         "Zimbabwe"
     )
-    val selectedItem = remember { mutableStateOf(selectedCountry) }
-    // Search bar
     var searchQuery by remember { mutableStateOf("") }
-
     val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
-
-    // Scroll state
+    val selectedItem = remember { mutableStateOf(selectedCountry) }
     val scrollState = rememberScrollState()
 
     ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
