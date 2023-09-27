@@ -57,7 +57,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun CovidApp() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
