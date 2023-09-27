@@ -77,62 +77,6 @@ fun GraphSection(
     }
 }
 
-@Composable
-private fun GraphCard(
-    modifier: Modifier = Modifier,
-    dataPoints: List<FloatEntry>,
-    onButtonClick: () -> Unit = {},
-    description: String = "This is the default description",
-) {
-    val refreshDataSet = remember { mutableIntStateOf(0) }
-    val modelProducer = remember { ChartEntryModelProducer() }
-    val datasetForModel = remember { mutableStateListOf(listOf<FloatEntry>()) }
-    val datasetLineSpec = remember { arrayListOf<LineChart.LineSpec>() }
-    val scrollState = rememberChartScrollState()
-    LaunchedEffect(key1 = refreshDataSet.intValue) {
-        // TODO: rebuild dataset
-        datasetForModel.clear()
-        datasetLineSpec.clear()
-        datasetLineSpec.add(
-            LineChart.LineSpec(
-                lineColor = Color.Green.toArgb(), lineBackgroundShader = DynamicShaders.fromBrush(
-                    brush = Brush.verticalGradient(
-                        listOf(
-                            Color.Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_START),
-                            Color.Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_END)
-                        )
-                    )
-                )
-            )
-        )
-        datasetForModel.add(dataPoints)
-        modelProducer.setEntries(datasetForModel)
-    }
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Card {
-            if (datasetForModel.isNotEmpty()) {
-                ProvideChartStyle {
-                    Chart(
-                        chart = lineChart(
-                            lines = datasetLineSpec
-                        ),
-                        chartModelProducer = modelProducer,
-                        chartScrollState = scrollState,
-                        isZoomEnabled = true,
-                    )
-                }
-            }
-            TextButton(modifier = Modifier.fillMaxWidth(), onClick = { onButtonClick }) {
-                Text(
-                    text = description,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-        }
-    }
 }
 
 @Composable
