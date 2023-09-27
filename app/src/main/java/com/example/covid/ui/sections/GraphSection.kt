@@ -15,13 +15,23 @@ import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.GraphCard
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 
+@Composable
+fun GraphSection(
+    viewModel: AppViewModel, modifier: Modifier = Modifier
+) {
+    when (viewModel.graphUiState) {
+        is GraphUiState.Loading -> Loading(modifier)
+        is GraphUiState.Success -> Success(
+            (viewModel.graphUiState as GraphUiState.Success).data,
+            modifier
+        )
 
-data class SuccessData(
-    val newCases: List<FloatEntry>,
-    val cumulativeCases: List<FloatEntry>,
-    val newDeaths: List<FloatEntry>,
-    val cumulativeDeaths: List<FloatEntry>,
-)
+        is GraphUiState.Error -> Error(
+            (viewModel.graphUiState as GraphUiState.Error).message,
+            modifier
+        )
+    }
+}
 
 sealed interface GraphUiState {
     object Loading : GraphUiState
@@ -29,23 +39,12 @@ sealed interface GraphUiState {
     data class Error(val message: String) : GraphUiState
 }
 
-@Composable
-fun GraphSection(
-    viewModel: GraphSectionViewModel, modifier: Modifier = Modifier
-) {
-    when (viewModel.graphUiState) {
-        is GraphUiState.Loading -> Loading(modifier)
-        is GraphUiState.Success -> Success(
-            (viewModel.graphUiState as GraphUiState.Success).data, modifier
-        )
-
-        is GraphUiState.Error -> Error(
-            (viewModel.graphUiState as GraphUiState.Error).message, modifier
-        )
-    }
-}
-
-}
+data class SuccessData(
+    val newCases: List<FloatEntry>,
+    val cumulativeCases: List<FloatEntry>,
+    val newDeaths: List<FloatEntry>,
+    val cumulativeDeaths: List<FloatEntry>,
+)
 
 @Composable
 private fun Success(
