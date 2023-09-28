@@ -27,14 +27,7 @@ class AppViewModel : ViewModel() {
     var scrollState = ScrollState(0)
 
     init {
-        graphUiState = GraphUiState.Success(
-            SuccessData(
-                newCases = generateRandomDataPoints(),
-                cumulativeCases = generateRandomDataPoints(),
-                newDeaths = generateRandomDataPoints(),
-                cumulativeDeaths = generateRandomDataPoints()
-            )
-        )
+        updateCountry("Viet Nam")
     }
 
     fun updateCountry(country: String) {
