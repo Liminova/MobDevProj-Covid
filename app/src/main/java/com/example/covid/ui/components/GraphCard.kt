@@ -16,12 +16,17 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.example.covid.rememberMarker
+import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
+import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
 import com.patrykandpatrick.vico.compose.style.ProvideChartStyle
 import com.patrykandpatrick.vico.core.DefaultAlpha
+import com.patrykandpatrick.vico.core.axis.AxisItemPlacer
 import com.patrykandpatrick.vico.core.chart.line.LineChart
 import com.patrykandpatrick.vico.core.component.shape.shader.DynamicShaders
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
@@ -40,7 +45,6 @@ fun GraphCard(
     val datasetLineSpec = remember { arrayListOf<LineChart.LineSpec>() }
     val scrollState = rememberChartScrollState()
     LaunchedEffect(key1 = refreshDataSet.intValue) {
-        // TODO: rebuild dataset
         datasetForModel.clear()
         datasetLineSpec.clear()
         datasetLineSpec.add(
@@ -64,11 +68,36 @@ fun GraphCard(
         Card {
             if (datasetForModel.isNotEmpty()) {
                 ProvideChartStyle {
+                    val marker = rememberMarker()
                     Chart(
                         chart = lineChart(
                             lines = datasetLineSpec
                         ),
                         chartModelProducer = modelProducer,
+
+                        // AXIS:
+                        startAxis = rememberStartAxis(
+                            title = "Cases",
+                            tickLength = 0.dp,
+                            valueFormatter = { value, _ ->
+                                ((value.toInt()) + 1).toString()
+                            },
+                            itemPlacer = AxisItemPlacer.Vertical.default(
+                                maxItemCount = 6,
+                            )
+                        ),
+
+                        bottomAxis = rememberBottomAxis(
+                            title = "Date",
+                            tickLength = 0.dp,
+                            valueFormatter = { value, _ ->
+                                value.toString()
+                            },
+                        ),
+
+                        // MARKER:
+                        marker = marker,
+
                         chartScrollState = scrollState,
                         isZoomEnabled = true,
                     )
