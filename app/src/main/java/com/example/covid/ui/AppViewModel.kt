@@ -35,7 +35,7 @@ class AppViewModel : ViewModel() {
             countriesListMap = try {
                 CovidApi.retrofitService.getCountries() as MutableMap<String, String>
             } catch (e: Exception) {
-                mapOf("Cannot fetch API" to "") as MutableMap<String, String>
+                mapOf("" to "Cannot fetch API") as MutableMap<String, String>
             }
         }
     }
