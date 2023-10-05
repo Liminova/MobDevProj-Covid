@@ -44,6 +44,7 @@ fun GraphCard(
     val datasetForModel = remember { mutableStateListOf(listOf<FloatEntry>()) }
     val datasetLineSpec = remember { arrayListOf<LineChart.LineSpec>() }
     val scrollState = rememberChartScrollState()
+
     LaunchedEffect(key1 = refreshDataSet.intValue) {
         datasetForModel.clear()
         datasetLineSpec.clear()
@@ -77,12 +78,9 @@ fun GraphCard(
 
                         // AXIS:
                         startAxis = rememberStartAxis(
-                            title = "Cases",
-                            tickLength = 0.dp,
-                            valueFormatter = { value, _ ->
+                            title = "Cases", tickLength = 0.dp, valueFormatter = { value, _ ->
                                 ((value.toInt()) + 1).toString()
-                            },
-                            itemPlacer = AxisItemPlacer.Vertical.default(
+                            }, itemPlacer = AxisItemPlacer.Vertical.default(
                                 maxItemCount = 6,
                             )
                         ),
@@ -97,7 +95,6 @@ fun GraphCard(
 
                         // MARKER:
                         marker = marker,
-
                         chartScrollState = scrollState,
                         isZoomEnabled = true,
                     )
