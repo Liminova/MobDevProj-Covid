@@ -123,12 +123,12 @@ fun DrawerContent(
             }
             filteredCountries.forEach { (countryCode, countryName) ->
                 NavigationDrawerItem(
-                    label = { Text(item.value) },
-                    selected = item.value == appViewModel.selectedCountry.value,
+                    label = { Text(countryName) },
+                    selected = countryName == appViewModel.selectedCountry.value,
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            appViewModel.updateCountry(mapOf(item.key to item.value))
+                            appViewModel.updateCountry(countryCode, countryName)
                         }
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
