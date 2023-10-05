@@ -53,26 +53,40 @@ class AppViewModel : ViewModel() {
         graphUiState = GraphUiState.Loading
 
         viewModelScope.launch {
-            val countryData = CovidApi.retrofitService.getCountryData(country.values.toList()[0])
-            lastUpdated.value = countryData.reports.last().date
-            totalCases.intValue = countryData.reports.last().cumulativeCases
-            totalDeaths.intValue = countryData.reports.last().cumulativeDeaths
+            val countryData = CovidApi.retrofitService.getCountryData(countryCode)
+            val dayRetention = 60
+            val reports = if (countryData.reports.size > dayRetention) {
+                countryData.reports.subList(
+                    countryData.reports.size - dayRetention, countryData.reports.size
+                )
+            } else {
+                countryData.reports
+            }
 
-            fun dateAxisMapper(countryReports: List<Report>): Map<Date, Float> {
+            lastUpdated.value = reports.last().date
+            totalCases.intValue = reports.last().cumulativeCases
+            totalDeaths.intValue = reports.last().cumulativeDeaths
+
+            fun dateAxisMapper(countryReports: List<Report>, typeOfData: String): Map<Date, Float> {
                 return countryReports.associate {
-                    val date = it.date.split("-")
-                    Date(
-                        date[0].toInt(), date[1].toInt(), date[2].toInt()
-                    ) to it.newCases.toFloat()
+                    val dateRaw = it.date.split("-").map { it2 -> it2.toInt() }
+                    val date = Date(dateRaw[0], dateRaw[1], dateRaw[2])
+                    date to when (typeOfData) {
+                        "newCases" -> it.newCases.toFloat()
+                        "cumulativeCases" -> it.cumulativeCases.toFloat()
+                        "newDeaths" -> it.newDeaths.toFloat()
+                        "cumulativeDeaths" -> it.cumulativeDeaths.toFloat()
+                        else -> 0f
+                    }
                 }
             }
 
             graphUiState = GraphUiState.Success(
                 SuccessData(
-                    newCases = dateAxisMapper(countryData.reports),
-                    cumulativeCases = dateAxisMapper(countryData.reports),
-                    newDeaths = dateAxisMapper(countryData.reports),
-                    cumulativeDeaths = dateAxisMapper(countryData.reports),
+                    dateAxisMapper(reports, "newCases"),
+                    dateAxisMapper(reports, "cumulativeCases"),
+                    dateAxisMapper(reports, "newDeaths"),
+                    dateAxisMapper(reports, "cumulativeDeaths")
                 )
             )
         }
