@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.covid.dataclasses.Date
 import com.example.covid.rememberMarker
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
@@ -35,7 +36,7 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 @Composable
 fun GraphCard(
     modifier: Modifier = Modifier,
-    dataPoints: List<FloatEntry>,
+    dataPoints: Map<Date, Float>,
     onButtonClick: () -> Unit = {},
     description: String,
 ) {
