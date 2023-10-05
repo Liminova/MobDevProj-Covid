@@ -27,12 +27,12 @@ class AppViewModel : ViewModel() {
         private set
     var scrollState = ScrollState(0)
         private set
-    var countriesMap = mutableMapOf<String, String>()
+    var countriesListMap = mutableMapOf<String, String>()
         private set
 
     init {
         viewModelScope.launch {
-            countriesMap = try {
+            countriesListMap = try {
                 CovidApi.retrofitService.getCountries() as MutableMap<String, String>
             } catch (e: Exception) {
                 mapOf("Cannot fetch API" to "") as MutableMap<String, String>
