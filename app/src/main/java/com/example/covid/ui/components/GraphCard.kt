@@ -61,7 +61,13 @@ fun GraphCard(
                 )
             )
         )
-        datasetForModel.add(dataPoints)
+        val dataset = dataPoints.map { (date, value) ->
+            FloatEntry(
+                x = date.toFloat(),
+                y = value
+            )
+        }
+        datasetForModel.add(dataset)
         modelProducer.setEntries(datasetForModel)
     }
     Column(
