@@ -29,6 +29,8 @@ class AppViewModel : ViewModel() {
         private set
     var countriesListMap = mutableMapOf<String, String>()
         private set
+    var readyToComposeCountryList = mutableIntStateOf(0)
+        private set
 
     init {
         viewModelScope.launch {
@@ -37,6 +39,7 @@ class AppViewModel : ViewModel() {
             } catch (e: Exception) {
                 mapOf("" to "Cannot fetch API") as MutableMap<String, String>
             }
+            readyToComposeCountryList.intValue = 1
         }
     }
 
