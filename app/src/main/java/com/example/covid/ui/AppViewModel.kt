@@ -47,7 +47,7 @@ class AppViewModel : ViewModel() {
         if (country.values.first() == "") return
         selectedCountry.value = country.keys.first()
         lastUpdated.value = "loading..."
-        lastUpdated.value = "2000-01-01"
+        lastUpdated.value = "loading..."
         totalCases.intValue = 0
         totalDeaths.intValue = 0
         graphUiState = GraphUiState.Loading
