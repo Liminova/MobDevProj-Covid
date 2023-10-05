@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.LocationCard
-import com.example.covid.ui.countries
 import com.example.covid.ui.sections.CountSection
 import com.example.covid.ui.sections.GraphSection
 import com.example.covid.ui.sections.TopBarSection
@@ -96,8 +95,9 @@ fun drawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val filteredCountries = countries.filter { it.contains(searchQuery, ignoreCase = true) }
     ModalDrawerSheet() {
+    val filteredCountries =
+        appViewModel.countriesMap.filter { it.value.contains(searchQuery, ignoreCase = true) }
         Spacer(Modifier.height(12.dp))
         TextField(value = searchQuery,
             onValueChange = { searchQuery = it },
@@ -113,12 +113,12 @@ fun drawerContent(
         ) {
             filteredCountries.forEach { item ->
                 NavigationDrawerItem(
-                    label = { Text(item) },
-                    selected = item == appViewModel.selectedCountry.value,
+                    label = { Text(item.value) },
+                    selected = item.value == appViewModel.selectedCountry.value,
                     onClick = {
                         scope.launch {
                             drawerState.close()
-                            appViewModel.updateCountry(item)
+                            appViewModel.updateCountry(mapOf(item.key to item.value))
                         }
                     },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
