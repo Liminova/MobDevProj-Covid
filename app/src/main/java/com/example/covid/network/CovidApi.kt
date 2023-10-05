@@ -1,6 +1,6 @@
 package com.example.covid.network
 
-import com.squareup.moshi.Json
+import com.example.covid.dataclasses.CountryData
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
@@ -15,20 +15,6 @@ private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 private val retrofit =
     Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl(BASE_URL)
         .build()
-
-data class CountryData(
-    @Json(name = "CountryName") val countryName: String,
-    @Json(name = "WHORegion") val whoRegion: String,
-    @Json(name = "Reports") val reports: List<Report>
-)
-
-data class Report(
-    @Json(name = "Date") val date: String,
-    @Json(name = "NewCases") val newCases: Int,
-    @Json(name = "NewDeaths") val newDeaths: Int,
-    @Json(name = "CumulativeCases") val cumulativeCases: Int,
-    @Json(name = "CumulativeDeaths") val cumulativeDeaths: Int
-)
 
 // Defines how the data is retrieved from the endpoint
 // Functions to call in our code to get the data

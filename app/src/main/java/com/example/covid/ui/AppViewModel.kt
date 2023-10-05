@@ -8,8 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.covid.dataclasses.Date
+import com.example.covid.dataclasses.Report
 import com.example.covid.network.CovidApi
-import com.example.covid.network.Report
 import com.example.covid.ui.sections.GraphUiState
 import com.example.covid.ui.sections.SuccessData
 import kotlinx.coroutines.launch
