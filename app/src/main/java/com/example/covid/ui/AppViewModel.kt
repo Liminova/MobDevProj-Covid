@@ -7,10 +7,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.covid.ui.functions.generateRandomDataPoints
+import com.example.covid.dataclasses.Date
+import com.example.covid.network.CovidApi
+import com.example.covid.network.Report
 import com.example.covid.ui.sections.GraphUiState
 import com.example.covid.ui.sections.SuccessData
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AppViewModel : ViewModel() {
@@ -25,30 +26,52 @@ class AppViewModel : ViewModel() {
     var selectedCountry = mutableStateOf("Select a country")
         private set
     var scrollState = ScrollState(0)
+        private set
+    var countriesMap = mutableMapOf<String, String>()
+        private set
 
     init {
-        updateCountry("Viet Nam")
+        viewModelScope.launch {
+            countriesMap = try {
+                CovidApi.retrofitService.getCountries() as MutableMap<String, String>
+            } catch (e: Exception) {
+                mapOf("Cannot fetch API" to "") as MutableMap<String, String>
+            }
+        }
     }
 
-    fun updateCountry(country: String) {
-        selectedCountry.value = country
-        graphUiState = GraphUiState.Loading
+    fun updateCountry(country: Map<String, String>) {
+        if (country.values.first() == "") return
+        selectedCountry.value = country.keys.first()
         lastUpdated.value = "loading..."
-        totalCases.value = 0
-        totalDeaths.value = 0
-        viewModelScope.launch(Dispatchers.IO) {
-            Thread.sleep(1000)
+        lastUpdated.value = "2000-01-01"
+        totalCases.intValue = 0
+        totalDeaths.intValue = 0
+        graphUiState = GraphUiState.Loading
+
+        viewModelScope.launch {
+            val countryData = CovidApi.retrofitService.getCountryData(country.values.toList()[0])
+            lastUpdated.value = countryData.reports.last().date
+            totalCases.intValue = countryData.reports.last().cumulativeCases
+            totalDeaths.intValue = countryData.reports.last().cumulativeDeaths
+
+            fun dateAxisMapper(countryReports: List<Report>): Map<Date, Float> {
+                return countryReports.associate {
+                    val date = it.date.split("-")
+                    Date(
+                        date[0].toInt(), date[1].toInt(), date[2].toInt()
+                    ) to it.newCases.toFloat()
+                }
+            }
+
             graphUiState = GraphUiState.Success(
                 SuccessData(
-                    newCases = generateRandomDataPoints(),
-                    cumulativeCases = generateRandomDataPoints(),
-                    newDeaths = generateRandomDataPoints(),
-                    cumulativeDeaths = generateRandomDataPoints()
+                    newCases = dateAxisMapper(countryData.reports),
+                    cumulativeCases = dateAxisMapper(countryData.reports),
+                    newDeaths = dateAxisMapper(countryData.reports),
+                    cumulativeDeaths = dateAxisMapper(countryData.reports),
                 )
             )
-            lastUpdated.value = "2000-01-01"
-            totalCases.value = (100_000..1_000_000).random()
-            totalDeaths.value = (100_000..1_000_000).random()
         }
     }
 }
