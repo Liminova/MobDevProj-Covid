@@ -11,9 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.covid.dataclasses.Date
 import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.GraphCard
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 
 @Composable
 fun GraphSection(
@@ -38,10 +38,10 @@ sealed interface GraphUiState {
 }
 
 data class SuccessData(
-    val newCases: List<FloatEntry>,
-    val cumulativeCases: List<FloatEntry>,
-    val newDeaths: List<FloatEntry>,
-    val cumulativeDeaths: List<FloatEntry>,
+    val newCases: Map<Date, Float>,
+    val cumulativeCases: Map<Date, Float>,
+    val newDeaths: Map<Date, Float>,
+    val cumulativeDeaths: Map<Date, Float>,
 )
 
 @Composable
