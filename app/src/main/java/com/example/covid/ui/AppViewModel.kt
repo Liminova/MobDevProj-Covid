@@ -43,9 +43,9 @@ class AppViewModel : ViewModel() {
         }
     }
 
-    fun updateCountry(country: Map<String, String>) {
-        if (country.values.first() == "") return
-        selectedCountry.value = country.keys.first()
+    fun updateCountry(countryCode: String, countryName: String) {
+        if (countryCode == "" || countryName == "") return
+        selectedCountry.value = countryName
         lastUpdated.value = "loading..."
         lastUpdated.value = "loading..."
         totalCases.intValue = 0
