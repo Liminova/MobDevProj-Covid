@@ -96,12 +96,14 @@ fun DrawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val filteredCountries =
-        appViewModel.countriesMap.filter { it.value.contains(searchQuery, ignoreCase = true) }
+    var filteredCountries = if (searchQuery.isEmpty()) {
+        appViewModel.countriesListMap
+    } else {
+        appViewModel.countriesListMap.filter { it.value.contains(searchQuery, true) }
+    }
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
-        TextField(
-            value = searchQuery,
+        TextField(value = searchQuery,
             onValueChange = { searchQuery = it },
             label = { Text("Search") },
             modifier = Modifier
