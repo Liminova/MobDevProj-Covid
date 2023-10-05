@@ -58,12 +58,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CovidApp() {
+//    val context = LocalContext.current
     val appViewModel = viewModel<AppViewModel>()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(drawerState = drawerState,
-        drawerContent = { drawerContent(appViewModel, scope, drawerState) }) {
+        drawerContent = { DrawerContent(appViewModel, scope, drawerState) }) {
         Column {
             TopBarSection(
                 appViewModel,
@@ -91,15 +92,16 @@ fun CovidApp() {
 }
 
 @Composable
-fun drawerContent(
+fun DrawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    ModalDrawerSheet() {
     val filteredCountries =
         appViewModel.countriesMap.filter { it.value.contains(searchQuery, ignoreCase = true) }
+    ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
-        TextField(value = searchQuery,
+        TextField(
+            value = searchQuery,
             onValueChange = { searchQuery = it },
             label = { Text("Search") },
             modifier = Modifier
