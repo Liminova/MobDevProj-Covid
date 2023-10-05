@@ -115,7 +115,13 @@ fun DrawerContent(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-            filteredCountries.forEach { item ->
+            if (appViewModel.readyToComposeCountryList.intValue == 0) {
+                NavigationDrawerItem(label = { Text("loading...") },
+                    selected = false,
+                    onClick = { })
+                return@ModalDrawerSheet
+            }
+            filteredCountries.forEach { (countryCode, countryName) ->
                 NavigationDrawerItem(
                     label = { Text(item.value) },
                     selected = item.value == appViewModel.selectedCountry.value,
