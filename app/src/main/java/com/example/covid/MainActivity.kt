@@ -82,8 +82,8 @@ fun CovidApp() {
                 )
                 CountSection(
                     Modifier.padding(bottom = 16.dp),
-                    appViewModel.totalDeaths.value,
-                    appViewModel.totalCases.value,
+                    appViewModel.totalDeaths.intValue,
+                    appViewModel.totalCases.intValue,
                 )
                 GraphSection(Modifier.fillMaxWidth(), appViewModel)
             }
