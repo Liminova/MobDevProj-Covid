@@ -58,7 +58,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun CovidApp() {
-//    val context = LocalContext.current
     val appViewModel = viewModel<AppViewModel>()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -96,14 +95,15 @@ fun DrawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    var filteredCountries = if (searchQuery.isEmpty()) {
+    val filteredCountries = if (searchQuery.isEmpty()) {
         appViewModel.countriesListMap
     } else {
         appViewModel.countriesListMap.filter { it.value.contains(searchQuery, true) }
     }
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
-        TextField(value = searchQuery,
+        TextField(
+            value = searchQuery,
             onValueChange = { searchQuery = it },
             label = { Text("Search") },
             modifier = Modifier
