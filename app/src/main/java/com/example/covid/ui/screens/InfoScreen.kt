@@ -17,6 +17,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.covid.ui.navigation.CovidAppRouter
+import com.example.covid.ui.navigation.Screen
+import com.example.covid.ui.navigation.SystemBackButtonHandler
 
 @Composable
 fun InfoScreen() {
@@ -42,5 +45,8 @@ fun InfoScreen() {
                 textAlign = TextAlign.Center
             )
         }
+    }
+    SystemBackButtonHandler {
+        CovidAppRouter.navigateTo(Screen.StatScreen)
     }
 }
