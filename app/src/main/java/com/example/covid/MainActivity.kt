@@ -68,6 +68,7 @@ fun CovidApp() {
             TopBarSection(
                 appViewModel,
                 onNavIconClicked = { scope.launch { drawerState.open() } },
+                onInfoIconClicked = {}
             )
             Column(
                 Modifier
