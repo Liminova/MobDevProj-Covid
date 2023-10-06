@@ -95,11 +95,8 @@ fun DrawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val filteredCountries = if (searchQuery.isEmpty()) {
-        appViewModel.countriesListMap
-    } else {
+    var filteredCountries =
         appViewModel.countriesListMap.filter { it.value.contains(searchQuery, true) }
-    }
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))
         TextField(
@@ -121,7 +118,8 @@ fun DrawerContent(
                     onClick = { })
                 return@ModalDrawerSheet
             }
-            filteredCountries.forEach { (countryCode, countryName) ->
+            val temp = filteredCountries.ifEmpty { appViewModel.countriesListMap }
+            temp.forEach { (countryCode, countryName) ->
                 NavigationDrawerItem(
                     label = { Text(countryName) },
                     selected = countryName == appViewModel.selectedCountry.value,
