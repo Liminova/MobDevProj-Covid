@@ -51,14 +51,15 @@ fun GraphCard(
     val scrollState = rememberChartScrollState()
     val datasetLineStyle = arrayListOf(
         LineChart.LineSpec(
-            lineColor = Color.Green.toArgb(), lineBackgroundShader = DynamicShaders.fromBrush(
+            lineColor = Color.Green.toArgb(),
+            lineBackgroundShader = DynamicShaders.fromBrush(
                 brush = Brush.verticalGradient(
                     listOf(
                         Color.Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_START),
                         Color.Green.copy(DefaultAlpha.LINE_BACKGROUND_SHADER_END)
                     )
                 )
-            )
+            ),
         )
     )
     val modelProducer =
