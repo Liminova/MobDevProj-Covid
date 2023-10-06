@@ -33,7 +33,7 @@ import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 class CovidEntry(
     private val date: Date,
     private val cases: Int,
-    override val x: Float = date.toEpochDay().toFloat(),
+    override val x: Float = date.intToEpochDate().toFloat(),
     override val y: Float = cases.toFloat(),
 ) : ChartEntry {
     override fun withY(y: Float): ChartEntry {
