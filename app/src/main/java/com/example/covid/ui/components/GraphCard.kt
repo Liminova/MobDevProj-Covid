@@ -94,7 +94,7 @@ fun GraphCard(
                         title = "Date",
                         tickLength = 0.dp,
                         valueFormatter = { value, _ ->
-                            value.toString()
+                            Date().epochDateToString(value.toLong())
                         },
                     ),
 
