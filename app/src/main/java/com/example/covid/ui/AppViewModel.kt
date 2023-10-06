@@ -71,9 +71,7 @@ class AppViewModel : ViewModel() {
             graphUiState = GraphUiState.Success(
                 SuccessData(
                     dateAxisMapper(reports, "newCases"),
-                    dateAxisMapper(reports, "cumulativeCases"),
                     dateAxisMapper(reports, "newDeaths"),
-                    dateAxisMapper(reports, "cumulativeDeaths")
                 )
             )
         }

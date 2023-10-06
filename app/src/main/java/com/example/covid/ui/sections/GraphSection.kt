@@ -38,10 +38,8 @@ sealed interface GraphUiState {
 }
 
 data class SuccessData(
-    val newCases: Map<Date, Float>,
-    val cumulativeCases: Map<Date, Float>,
-    val newDeaths: Map<Date, Float>,
-    val cumulativeDeaths: Map<Date, Float>,
+    val newCases: Map<Date, Int>,
+    val newDeaths: Map<Date, Int>,
 )
 
 @Composable
@@ -56,18 +54,8 @@ private fun Success(
         )
         GraphCard(
             Modifier.padding(bottom = 16.dp),
-            dataPoints = data.cumulativeCases,
-            description = "Cumulative Cases"
-        )
-        GraphCard(
-            Modifier.padding(bottom = 16.dp),
             dataPoints = data.newDeaths,
             description = "New Deaths"
-        )
-        GraphCard(
-            Modifier.padding(bottom = 16.dp),
-            dataPoints = data.cumulativeDeaths,
-            description = "Cumulative Deaths"
         )
     }
 }
