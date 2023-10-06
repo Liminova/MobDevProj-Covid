@@ -5,8 +5,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -62,7 +62,7 @@ fun TopBarSection(
     }, actions = {
         IconButton(onClick = { onInfoIconClicked() }) {
             Icon(
-                imageVector = Icons.Filled.Info, contentDescription = "Localized description"
+                imageVector = Icons.Outlined.Info, contentDescription = "Localized description"
             )
         }
     })
