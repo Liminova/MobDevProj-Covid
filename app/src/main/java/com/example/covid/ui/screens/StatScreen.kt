@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.LocationCard
+import com.example.covid.ui.navigation.CovidAppRouter
+import com.example.covid.ui.navigation.Screen
 import com.example.covid.ui.sections.CountSection
 import com.example.covid.ui.sections.DrawerContent
 import com.example.covid.ui.sections.GraphSection
@@ -32,7 +34,7 @@ fun StatScreen() {
             TopBarSection(
                 appViewModel,
                 onNavIconClicked = { scope.launch { drawerState.open() } },
-                onInfoIconClicked = {}
+                onInfoIconClicked = { CovidAppRouter.navigateTo(Screen.InfoScreen) }
             )
             Column(
                 Modifier
