@@ -1,29 +1,24 @@
 package com.example.covid.dataclasses
 
-data class Date(
-    val year: Int,
-    val month: Int,
-    val day: Int
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.TimeZone
+
+class Date(
+    private val year: Int = 0, private val month: Int = 0, private val day: Int = 0
 ) {
-    override fun toString(): String {
-        return "$year-$month-$day"
+    fun epochDateToString(epochDate: Long): String {
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.timeInMillis = epochDate * 1000
+        val dateFormat = SimpleDateFormat("dd MMM yyyy")
+        dateFormat.timeZone = TimeZone.getDefault()
+        return dateFormat.format(calendar.time)
     }
 
-    fun toFloat(): Float {
-        return (year * 10000 + month * 100 + day).toFloat()
-    }
-
-    fun toInt(): Int {
-        return (year * 10000 + month * 100 + day)
-    }
-
-    fun toEpochDay(): Long {
-        val daysInMonth = when (month) {
-            1, 3, 5, 7, 8, 10, 12 -> 31
-            4, 6, 9, 11 -> 30
-            2 -> 28
-            else -> 0
-        }
-        return (year * 365 + month * daysInMonth + day).toLong()
+    fun intToEpochDate(): Long {
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.set(year, month - 1, day, 0, 0, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.timeInMillis / 1000
     }
 }
