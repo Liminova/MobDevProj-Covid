@@ -68,20 +68,6 @@ class AppViewModel : ViewModel() {
             totalCases.intValue = reports.last().cumulativeCases
             totalDeaths.intValue = reports.last().cumulativeDeaths
 
-            fun dateAxisMapper(countryReports: List<Report>, typeOfData: String): Map<Date, Float> {
-                return countryReports.associate {
-                    val dateRaw = it.date.split("-").map { it2 -> it2.toInt() }
-                    val date = Date(dateRaw[0], dateRaw[1], dateRaw[2])
-                    date to when (typeOfData) {
-                        "newCases" -> it.newCases.toFloat()
-                        "cumulativeCases" -> it.cumulativeCases.toFloat()
-                        "newDeaths" -> it.newDeaths.toFloat()
-                        "cumulativeDeaths" -> it.cumulativeDeaths.toFloat()
-                        else -> 0f
-                    }
-                }
-            }
-
             graphUiState = GraphUiState.Success(
                 SuccessData(
                     dateAxisMapper(reports, "newCases"),
@@ -90,6 +76,18 @@ class AppViewModel : ViewModel() {
                     dateAxisMapper(reports, "cumulativeDeaths")
                 )
             )
+        }
+    }
+
+    private fun dateAxisMapper(countryReports: List<Report>, typeOfData: String): Map<Date, Int> {
+        return countryReports.associate {
+            val dateRaw = it.date.split("-").map { it2 -> it2.toInt() }
+            val date = Date(dateRaw[0], dateRaw[1], dateRaw[2])
+            date to when (typeOfData) {
+                "newCases" -> it.newCases
+                "newDeaths" -> it.newDeaths
+                else -> 0
+            }
         }
     }
 }
