@@ -4,4 +4,6 @@
     <string name="last_updated">Last Updated: %1$s</string>
     <string name="total_cases">Total Cases</string>
     <string name="total_deaths">Total Deaths</string>
+    <string name="fatality_rate">Fatality Rate</string>
+    <string name="cases_last_30d">Cases last 30d</string>
 </resources>
