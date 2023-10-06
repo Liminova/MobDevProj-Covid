@@ -6,4 +6,8 @@
     <string name="total_deaths">Total Deaths</string>
     <string name="fatality_rate">Fatality Rate</string>
     <string name="cases_last_30d">Cases last 30d</string>
+    <string name="disclaimer">Disclaimer</string>
+    <string name="disclaimer_text">This app is for educational purposes only. The data is sourced from the <a href="https://covid19api.com/">COVID-19 API</a>. The data is not guaranteed to be accurate. Please refer to the <a href="https://covid19api.com/">COVID-19 API</a> for the most up to date information.</string>
+    <string name="data_source">Data Source</string>
+    <string name="data_source_text">The data is sourced from the <a href="https://covid19api.com/">COVID-19 API</a>.</string>
 </resources>
