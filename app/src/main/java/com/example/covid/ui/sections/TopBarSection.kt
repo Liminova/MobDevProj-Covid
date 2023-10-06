@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +28,7 @@ import com.example.covid.ui.AppViewModel
 fun TopBarSection(
     appViewModel: AppViewModel,
     onNavIconClicked: () -> Unit,
+    onInfoIconClicked: () -> Unit,
 ) {
     var visible by remember { mutableStateOf(false) }
     var title by remember { mutableStateOf("") }
@@ -55,6 +57,12 @@ fun TopBarSection(
         IconButton(onClick = { onNavIconClicked() }) {
             Icon(
                 imageVector = Icons.Filled.Menu, contentDescription = "Localized description"
+            )
+        }
+    }, actions = {
+        IconButton(onClick = { onInfoIconClicked() }) {
+            Icon(
+                imageVector = Icons.Filled.Info, contentDescription = "Localized description"
             )
         }
     })
