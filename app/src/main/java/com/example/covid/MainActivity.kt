@@ -83,6 +83,8 @@ fun CovidApp() {
                     Modifier.padding(bottom = 16.dp),
                     appViewModel.totalDeaths.intValue,
                     appViewModel.totalCases.intValue,
+                    appViewModel.totalCasesLast30d.intValue,
+                    appViewModel.fatalityRate.floatValue,
                 )
                 GraphSection(Modifier.fillMaxWidth(), appViewModel)
             }
@@ -95,7 +97,7 @@ fun DrawerContent(
     appViewModel: AppViewModel, scope: CoroutineScope, drawerState: DrawerState
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    var filteredCountries =
+    val filteredCountries =
         appViewModel.countriesListMap.filter { it.value.contains(searchQuery, true) }
     ModalDrawerSheet {
         Spacer(Modifier.height(12.dp))

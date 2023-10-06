@@ -17,8 +17,11 @@ import com.example.covid.ui.functions.ReadableNumber
 fun CountCard(
     modifier: Modifier = Modifier,
     label: String,
-    count: Int,
+    value: Float,
+    roundValueToInt: Boolean = true,
+    postFix: String = "",
 ) {
+    val formattedValue = if (roundValueToInt) ReadableNumber(value.toInt()) else value
     Card(modifier) {
         Text(
             label,
@@ -34,7 +37,7 @@ fun CountCard(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             Text(
-                ReadableNumber(count),
+                formattedValue.toString() + postFix,
                 modifier = Modifier.padding(
                     top = 8.dp,
                     end = 16.dp,

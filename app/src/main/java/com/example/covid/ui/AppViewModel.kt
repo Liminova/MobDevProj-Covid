@@ -2,6 +2,7 @@ package com.example.covid.ui
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,7 +22,11 @@ class AppViewModel : ViewModel() {
         private set
     var totalCases = mutableIntStateOf(0)
         private set
+    var totalCasesLast30d = mutableIntStateOf(0)
+        private set
     var totalDeaths = mutableIntStateOf(0)
+        private set
+    var fatalityRate = mutableFloatStateOf(0f)
         private set
     var selectedCountry = mutableStateOf("Select a country")
         private set
@@ -55,7 +60,7 @@ class AppViewModel : ViewModel() {
 
         viewModelScope.launch {
             val countryData = CovidApi.retrofitService.getCountryData(countryCode)
-            val dayRetention = 60
+            val dayRetention = 200
             val reports = if (countryData.reports.size > dayRetention) {
                 countryData.reports.subList(
                     countryData.reports.size - dayRetention, countryData.reports.size
@@ -67,6 +72,17 @@ class AppViewModel : ViewModel() {
             lastUpdated.value = reports.last().date
             totalCases.intValue = reports.last().cumulativeCases
             totalDeaths.intValue = reports.last().cumulativeDeaths
+            fatalityRate.floatValue = if (totalCases.intValue == 0) {
+                0f
+            } else {
+                ((totalDeaths.intValue.toDouble() / totalCases.intValue.toDouble() * 100) * 10000).toInt()
+                    .toFloat() / 10000
+            }
+            val report30days = reports.subList(
+                reports.size - 30, reports.size
+            )
+            totalCasesLast30d.intValue =
+                report30days.last().cumulativeCases - report30days.first().cumulativeCases
 
             graphUiState = GraphUiState.Success(
                 SuccessData(
