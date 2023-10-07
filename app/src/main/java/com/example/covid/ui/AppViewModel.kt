@@ -46,7 +46,7 @@ class AppViewModel : ViewModel() {
             }
             readyToComposeCountryList.intValue = 1
         }
-        updateCountry("VN", "Vietnam")
+        updateCountry("WW", "Worldwide")
     }
 
     fun updateCountry(countryCode: String, countryName: String) {
