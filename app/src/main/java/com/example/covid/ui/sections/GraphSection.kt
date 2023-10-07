@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.covid.R
 import com.example.covid.dataclasses.Date
 import com.example.covid.ui.AppViewModel
 import com.example.covid.ui.components.GraphCard
@@ -38,8 +40,10 @@ sealed interface GraphUiState {
 }
 
 data class SuccessData(
-    val newCases: Map<Date, Int>,
-    val newDeaths: Map<Date, Int>,
+    val newCasesLast6M: Map<Date, Int>,
+    val newDeathsLast6M: Map<Date, Int>,
+    val newCasesAllTime: Map<Date, Int>,
+    val newDeathsAllTime: Map<Date, Int>,
 )
 
 @Composable
@@ -50,12 +54,26 @@ private fun Success(
         modifier = modifier.fillMaxSize()
     ) {
         GraphCard(
-            Modifier.padding(bottom = 16.dp), dataPoints = data.newCases, description = "New Cases"
+            Modifier.padding(bottom = 16.dp),
+            dataPoints = data.newCasesLast6M,
+            description = stringResource(
+                R.string.new_cases_last_6_months
+            )
         )
         GraphCard(
             Modifier.padding(bottom = 16.dp),
-            dataPoints = data.newDeaths,
-            description = "New Deaths"
+            dataPoints = data.newDeathsLast6M,
+            description = stringResource(R.string.new_deaths_last_6_months)
+        )
+        GraphCard(
+            Modifier.padding(bottom = 16.dp),
+            dataPoints = data.newCasesAllTime,
+            description = stringResource(R.string.new_cases_all_time)
+        )
+        GraphCard(
+            Modifier.padding(bottom = 16.dp),
+            dataPoints = data.newDeathsAllTime,
+            description = stringResource(R.string.new_deaths_all_time)
         )
     }
 }
