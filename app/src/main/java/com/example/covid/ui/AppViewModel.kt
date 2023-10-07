@@ -60,14 +60,11 @@ class AppViewModel : ViewModel() {
 
         viewModelScope.launch {
             val countryData = CovidApi.retrofitService.getCountryData(countryCode)
-            val dayRetention = 200
-            val reports = if (countryData.reports.size > dayRetention) {
-                countryData.reports.subList(
-                    countryData.reports.size - dayRetention, countryData.reports.size
-                )
-            } else {
-                countryData.reports
-            }
+            val reports = countryData.reports
+
+            val reportsLast6M = reports.subList(
+                reports.size - 180, reports.size
+            )
 
             lastUpdated.value = reports.last().date
             totalCases.intValue = reports.last().cumulativeCases
@@ -86,8 +83,10 @@ class AppViewModel : ViewModel() {
 
             graphUiState = GraphUiState.Success(
                 SuccessData(
+                    dateAxisMapper(reportsLast6M, "newCases"),
+                    dateAxisMapper(reportsLast6M, "newDeaths"),
                     dateAxisMapper(reports, "newCases"),
-                    dateAxisMapper(reports, "newDeaths"),
+                    dateAxisMapper(reports, "newDeaths")
                 )
             )
         }
