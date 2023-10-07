@@ -6,8 +6,11 @@
     <string name="total_deaths">Total Deaths</string>
     <string name="fatality_rate">Fatality Rate</string>
     <string name="cases_last_30d">Cases last 30d</string>
-    <string name="disclaimer">Disclaimer</string>
-    <string name="disclaimer_text">This app is for educational purposes only. The data is sourced from the <a href="https://covid19api.com/">COVID-19 API</a>. The data is not guaranteed to be accurate. Please refer to the <a href="https://covid19api.com/">COVID-19 API</a> for the most up to date information.</string>
-    <string name="data_source">Data Source</string>
-    <string name="data_source_text">The data is sourced from the <a href="https://covid19api.com/">COVID-19 API</a>.</string>
+    <string name="about_us">About us</string>
+    <string name="about_us_p1">This app was created for the purpose of the course Mobile App Development. If you see this app in the wild, idk what happened. We wrote this app using Kotlin and Jetpack Compose, which is a new UI framework for Android. It\'s pretty cool. We hope you like it! Oh and, we wrote our own API for this app, which you can find here: github.com/Delnegend/covid-api (the data is from the WHO).</string>
+    <string name="about_us_p2">Here\'s another paragraph so that our \"About us\" page looks a bit more filled. Because I don\'t want to use Lorem Ipsum. That\'s boring. At this point I\'m just typing random stuff. I hope you\'re having a good day, and a good week. Stay safe!</string>
+    <string name="new_cases_last_6_months">New Cases (last 6 months)</string>
+    <string name="new_deaths_last_6_months">New Deaths (last 6 months)</string>
+    <string name="new_cases_all_time">New Cases (all time)</string>
+    <string name="new_deaths_all_time">New Deaths (all time)</string>
 </resources>
