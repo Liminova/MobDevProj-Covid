@@ -2,6 +2,7 @@ package com.example.covid.ui.sections
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -21,11 +22,10 @@ fun CountSection(
 ) {
 
     Column(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             CountCard(
                 label = stringResource(R.string.total_cases),
@@ -40,8 +40,9 @@ fun CountSection(
                 modifier = Modifier.weight(1f)
             )
         }
+        Spacer(modifier = Modifier.padding(8.dp))
         Row(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             CountCard(
                 label = stringResource(R.string.fatality_rate),
