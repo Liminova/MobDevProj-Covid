@@ -8,6 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -19,6 +23,7 @@ import com.example.covid.rememberMarker
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
+import com.patrykandpatrick.vico.compose.chart.column.columnChart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
 import com.patrykandpatrick.vico.compose.chart.scroll.rememberChartScrollState
 import com.patrykandpatrick.vico.compose.component.shape.shader.fromBrush
@@ -48,6 +53,7 @@ fun GraphCard(
     onButtonClick: () -> Unit = {},
     description: String,
 ) {
+    var useBarChart by remember { mutableStateOf(false) }
     val scrollState = rememberChartScrollState()
     val datasetLineStyle = arrayListOf(
         LineChart.LineSpec(
@@ -62,6 +68,12 @@ fun GraphCard(
             ),
         )
     )
+    val chart = if (useBarChart) {
+        columnChart(spacing = 4.dp)
+    } else {
+        lineChart(lines = datasetLineStyle)
+    }
+
     val modelProducer =
         ChartEntryModelProducer(dataPoints.map { (key, value) -> CovidEntry(key, value) })
     Column(
@@ -79,7 +91,7 @@ fun GraphCard(
             ProvideChartStyle {
                 val marker = rememberMarker()
                 Chart(
-                    chart = lineChart(lines = datasetLineStyle),
+                    chart = chart,
                     chartModelProducer = modelProducer,
 
                     // AXIS:
@@ -106,7 +118,10 @@ fun GraphCard(
                 )
             }
 
-            TextButton(modifier = Modifier.fillMaxWidth(), onClick = { onButtonClick }) {
+            TextButton(modifier = Modifier.fillMaxWidth(), onClick = {
+                useBarChart = !useBarChart
+                onButtonClick()
+            }) {
                 Text(
                     text = description,
                     textAlign = TextAlign.Center,
